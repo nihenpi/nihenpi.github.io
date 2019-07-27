@@ -79,17 +79,25 @@
 
 
 
-<meta name="description" content="Netty—–异步和事件驱动 Netty是什么   Netty是一个Java语言编写的用于创建高性能网络通讯程序的框架   为什么不直接使用java语言编写网络程序  我们可以先看下面一段比较经典的网络通讯的流程代码： 123456789101112131415161718int port = 8080;//监听端口ServerSocket serverSocket = new ServerSoc">
+<meta name="description" content="背景最近在做一个移动端h5项目的后端应用，接口联调时前端反应说登录有问题，先简单介绍一下我们的权限实现，jwt加spring security，使用redis做的session中心存放token。 1.前端请求登录接口，核对成功返回用户信息和token，同时将此信息保存于redis中2.访问后端接口需要将token保存于header中，请求先经过安全Filter，会从token中解析出subjec">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《Netty实战》读书笔记一">
-<meta property="og:url" content="https://nihenpi.github.io/2018/08/30/《Netty实战》读书笔记一/index.html">
+<meta property="og:title" content="Filter servlet interceptor 的执行顺序问题">
+<meta property="og:url" content="https://nihenpi.github.io/2019/07/04/Filter-servlet-interceptor-的执行顺序问题/index.html">
 <meta property="og:site_name" content="小麻抄手">
-<meta property="og:description" content="Netty—–异步和事件驱动 Netty是什么   Netty是一个Java语言编写的用于创建高性能网络通讯程序的框架   为什么不直接使用java语言编写网络程序  我们可以先看下面一段比较经典的网络通讯的流程代码： 123456789101112131415161718int port = 8080;//监听端口ServerSocket serverSocket = new ServerSoc">
+<meta property="og:description" content="背景最近在做一个移动端h5项目的后端应用，接口联调时前端反应说登录有问题，先简单介绍一下我们的权限实现，jwt加spring security，使用redis做的session中心存放token。 1.前端请求登录接口，核对成功返回用户信息和token，同时将此信息保存于redis中2.访问后端接口需要将token保存于header中，请求先经过安全Filter，会从token中解析出subjec">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-27T02:33:16.895Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704201526638.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704201633954.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704203528336.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704203958685.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704204307907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704204427449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704204452216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-07-27T02:27:55.523Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《Netty实战》读书笔记一">
-<meta name="twitter:description" content="Netty—–异步和事件驱动 Netty是什么   Netty是一个Java语言编写的用于创建高性能网络通讯程序的框架   为什么不直接使用java语言编写网络程序  我们可以先看下面一段比较经典的网络通讯的流程代码： 123456789101112131415161718int port = 8080;//监听端口ServerSocket serverSocket = new ServerSoc">
+<meta name="twitter:title" content="Filter servlet interceptor 的执行顺序问题">
+<meta name="twitter:description" content="背景最近在做一个移动端h5项目的后端应用，接口联调时前端反应说登录有问题，先简单介绍一下我们的权限实现，jwt加spring security，使用redis做的session中心存放token。 1.前端请求登录接口，核对成功返回用户信息和token，同时将此信息保存于redis中2.访问后端接口需要将token保存于header中，请求先经过安全Filter，会从token中解析出subjec">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190704201526638.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
 
 
 
@@ -119,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://nihenpi.github.io/2018/08/30/《Netty实战》读书笔记一/"/>
+  <link rel="canonical" href="https://nihenpi.github.io/2019/07/04/Filter-servlet-interceptor-的执行顺序问题/"/>
 
 
 
 
 
-  <title>《Netty实战》读书笔记一 | 小麻抄手</title>
+  <title>Filter servlet interceptor 的执行顺序问题 | 小麻抄手</title>
   
 
 
@@ -232,7 +240,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2018/08/30/《Netty实战》读书笔记一/">
+    <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2019/07/04/Filter-servlet-interceptor-的执行顺序问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jungle">
@@ -249,7 +257,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《Netty实战》读书笔记一</h1>
+          <h1 class="post-title" itemprop="name headline">Filter servlet interceptor 的执行顺序问题</h1>
         
 
         <div class="post-meta">
@@ -261,8 +269,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-30T22:36:01+08:00">
-                2018-08-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-04T10:23:51+08:00">
+                2019-07-04
               </time>
             
 
@@ -299,24 +307,14 @@
       
 
       
-        <h2 id="Netty—–异步和事件驱动"><a href="#Netty—–异步和事件驱动" class="headerlink" title="Netty—–异步和事件驱动"></a>Netty—–异步和事件驱动</h2><ul>
-<li>Netty是什么</li>
-</ul>
-<blockquote>
-<p>Netty是一个Java语言编写的用于创建高性能网络通讯程序的框架</p>
-</blockquote>
-<ul>
-<li>为什么不直接使用java语言编写网络程序</li>
-</ul>
-<p>我们可以先看下面一段比较经典的网络通讯的流程代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">int</span> port = <span class="number">8080</span>;</span><br><span class="line"><span class="comment">//监听端口</span></span><br><span class="line">ServerSocket serverSocket = <span class="keyword">new</span> ServerSocket(port);</span><br><span class="line">Socket clientSocket = serverSocket.accept();</span><br><span class="line">BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(clientSocket.getInputStream()));</span><br><span class="line">PrintWriter out = <span class="keyword">new</span> PrintWriter(clientSocket.getOutputStream(), <span class="keyword">true</span>);</span><br><span class="line">String request, response;</span><br><span class="line"><span class="comment">//readLine方法可能会阻塞</span></span><br><span class="line"><span class="keyword">while</span> ((request = in.readLine()) != <span class="keyword">null</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">"Done"</span>.equals(request))&#123;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//处理请求</span></span><br><span class="line">    response = process(request);</span><br><span class="line">    <span class="comment">//返回响应</span></span><br><span class="line">    out.print(response);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以上代码只能处理一个客户端连接的情况，如果要多个客户端同时通讯，需要为每个请求单独分配一个线程去处理请求</p>
-<p>这种方案存在的问题：</p>
-<ul>
-<li>处理请求的线程可能会在IO过程中可能会阻塞，大量线程阻塞的话会造成资源浪费</li>
-<li>创建线程需要分配内存</li>
-<li>线程切换会占用性能开销，线程数越多，性能开销越大</li>
-</ul>
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近在做一个移动端h5项目的后端应用，接口联调时前端反应说登录有问题，先简单介绍一下我们的权限实现，jwt加spring security，使用redis做的session中心存放token。</p>
+<p>1.前端请求登录接口，核对成功返回用户信息和token，同时将此信息保存于redis中<br>2.访问后端接口需要将token保存于header中，请求先经过安全Filter，会从token中解析出subject，然后去redis中查询看是否存在对应token<br>3.token相同则继续往下执行，token不同则说明登录已过期，返回401</p>
+<p>具体情况是登录成功进入数据页面之后就会请求初始数据，但是请求初始数据时就会返回401，提示未登录然后跳转回登录页面，出现问题第一时间肯定是想办法甩锅，于是马上用postman进行接口自测，果然，postman测接口一切正常。怀疑是不是前端vue的状态管理有问题导致传的token不对，和redis中查到的token不同导致的，然而经过核对，传的的确是登录接口返回的token。锅又回到了我这边。</p>
+<a id="more"></a>
+<h3 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h3><p>涉及到公司封装的底层，唯一的解决办法就是debug源码<br><img src="https://img-blog.csdnimg.cn/20190704201526638.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>发现，此处getSession时的确返回的是null，进入方法<br><img src="https://img-blog.csdnimg.cn/20190704201633954.png" alt="在这里插入图片描述"><br>发现determinKey方法，里面使用spring的mobile的一个框架，此处的用途是将移动端用户登录和浏览器端用户登录区分出来，用不同的前缀，实现独立登录互不影响的效果，代码如下<br><img src="https://img-blog.csdnimg.cn/20190704203528336.png" alt="在这里插入图片描述"><br>在写session和读session的时候都会调用到此方法，debug一遍之后，逐渐发现不对劲，在登录成功写session之后，DeviceUtils.getCurrentDevice(request)返回的对象是MOBILE，是不为空的，但是在读session时，获取到的device却是为null的，只好再进入getCurrentDevice方法一探究竟，代码如下<br><img src="https://img-blog.csdnimg.cn/20190704203958685.png" alt="在这里插入图片描述"><br>是去request的域中获取currentDevice时取不到值导致的，那么什么时候往里面写的这个属性呢？网上一查，原来是在spring的一个拦截器中实现的</p>
+<p><img src="https://img-blog.csdnimg.cn/20190704204307907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>继续追寻<br><img src="https://img-blog.csdnimg.cn/20190704204427449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190704204452216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>来到了springMVC最核心的servlet类中，发现请求数据的接口根本执行不到这里来，没有执行该拦截器，所以读session时也就获取不到device对象，那么为什么会不执行呢，上网一查，恍然大悟，原来是filter、servlet、interceptor之间的执行顺序造成，之所以登录能成功，是因为登录接口是无需权限验证的，绕过filter之后执行了拦截器的内容，写入了设备相关信息，在写session时会根据设备类型用不同的前缀存，但在读session时，因为filter比拦截器先执行，所以读不到设备信息，便会用默认的浏览器前缀的key去查session，所以便查不到session，返回401</p>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>既然是顺序问题，于是便把判断客户端类型的逻辑迁移到权限Filter之前，读session时即可能争取获得session前缀</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>执行顺序： Filter =&gt; Interceptor =&gt; Servlet</p>
 
       
     </div>
@@ -341,8 +339,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/18/后端接口防重提交基于redis分布式锁的解决方案/" rel="next" title="后端接口防重提交的解决方案">
-                <i class="fa fa-chevron-left"></i> 后端接口防重提交的解决方案
+              <a href="/2019/07/03/springBoot接口中直接返回图片数据/" rel="next" title="springBoot接口中直接返回图片数据">
+                <i class="fa fa-chevron-left"></i> springBoot接口中直接返回图片数据
               </a>
             
           </div>
@@ -351,8 +349,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/10/java-lang-IllegalArgumentException-createCheck-port-must-be-greater-than0/" rel="prev" title="java.lang.IllegalArgumentException: createCheck port must be greater than0">
-                java.lang.IllegalArgumentException: createCheck port must be greater than0 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/08/【设计模式】责任链模式/" rel="prev" title="【设计模式】责任链模式">
+                【设计模式】责任链模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -471,7 +469,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty—–异步和事件驱动"><span class="nav-number">1.</span> <span class="nav-text">Netty—–异步和事件驱动</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决过程"><span class="nav-number">2.</span> <span class="nav-text">解决过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决"><span class="nav-number">3.</span> <span class="nav-text">解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
