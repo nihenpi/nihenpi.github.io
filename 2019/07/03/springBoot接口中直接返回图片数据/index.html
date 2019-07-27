@@ -86,15 +86,15 @@
 <meta property="og:site_name" content="小麻抄手">
 <meta property="og:description" content="起因最近在做涉及到分享推广的业务，需要由业务员分享二维码进入推广页面，由于是新项目，前期预算和用量都有限，没有搭建对象存储服务，所以决定使用后台服务动态生成二维码图片直接图片数据并返回。 首先是二维码的生成，决定使用google的zxing，毕竟google的东西还是不错的，maven添加依赖如下：123456789101112&amp;lt;!-- https://mvnrepository.com/a">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190703214940677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190703220934714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190703221059584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2019070322122930.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-07-27T02:28:04.582Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKN454.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKNoG9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKUpRA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKU9xI.png">
+<meta property="og:updated_time" content="2019-07-27T04:44:58.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springBoot接口中直接返回图片数据">
 <meta name="twitter:description" content="起因最近在做涉及到分享推广的业务，需要由业务员分享二维码进入推广页面，由于是新项目，前期预算和用量都有限，没有搭建对象存储服务，所以决定使用后台服务动态生成二维码图片直接图片数据并返回。 首先是二维码的生成，决定使用google的zxing，毕竟google的东西还是不错的，maven添加依赖如下：123456789101112&amp;lt;!-- https://mvnrepository.com/a">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190703214940677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/27/eKN454.png">
 
 
 
@@ -297,6 +297,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/解决方案/" itemprop="url" rel="index">
+                    <span itemprop="name">解决方案</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -332,12 +354,12 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Map hints = <span class="keyword">new</span> HashMap();</span><br><span class="line">      hints.put(EncodeHintType.CHARACTER_SET, <span class="string">"utf-8"</span>);</span><br><span class="line">      hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);</span><br><span class="line">      hints.put(EncodeHintType.MARGIN, <span class="number">2</span>);</span><br><span class="line">      BitMatrix qrcode = <span class="keyword">new</span> QRCodeWriter().encode(href, BarcodeFormat.QR_CODE, <span class="number">300</span>, <span class="number">300</span>);</span><br><span class="line">      <span class="comment">//网上的方案大多数都是通过io流写到文件系统，</span></span><br><span class="line">      MatrixToImageWriter.writeToStream(qrcode,<span class="string">"png"</span>,response.getOutputStream());</span><br></pre></td></tr></table></figure>
 <p>于是企图用response的输出流返回，但是返回的数据浏览器看到的全是乱码，这种方案并没有成功</p>
 <p>但是根据个人经验，一般这种开源方案既然二维码数据BitMatrix对象都生成了，肯定有获取原始数据的方法，点进MatrixToImageWriter类搜索方法，果然，找到了能直接返回BufferedImage对象的方法</p>
-<p><img src="https://img-blog.csdnimg.cn/20190703214940677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>现在，BufferedImage对象已经有了，只差把它扔回前端了，继续百度，发现可以直接返回该对象，类似以下配置</p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKN454.png" alt="在这里插入图片描述"><br>现在，BufferedImage对象已经有了，只差把它扔回前端了，继续百度，发现可以直接返回该对象，类似以下配置</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping</span>(value = <span class="string">"/qrcode"</span>, produces = MediaType.IMAGE_JPEG_VALUE)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> BufferedImage <span class="title">generateQRCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//返回BufferedImage的对象</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>以为问题即将解决，然而浏览器访问返回406，上网一查，原来是没有对应消息类型的转换器导致的，有博主提到需要如下配置</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> BufferedImageHttpMessageConverter <span class="title">addConverter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BufferedImageHttpMessageConverter();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>加了上面的配置后发现问题仍没有解决，报错仍是406，怀疑配置没有生效，于是决定走源码查看原因。debug源码时发现messageConverters的list中确实没有我配置的，说明的确是配置问题，查找messageConverters的set操作，查到如图的地方</p>
-<p><img src="https://img-blog.csdnimg.cn/20190703220934714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>发现springMVC是在配置RequestMappingHandlerAdapter设置的HttpMessageConverter，进入getMessageConverters()方法<br><img src="https://img-blog.csdnimg.cn/20190703221059584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>根据我的工地英语8级，extendMessageConverters这个方法应该是在添加自定义的HttpMessageConverter，进入该方法<br><img src="https://img-blog.csdnimg.cn/2019070322122930.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>空实现，很明显估计是模板模式，需要自己去扩展，于是自己写了一个配置类继承WebMvcConfigurationSupport,重写extendMessageConverters方法</p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKNoG9.png" alt="在这里插入图片描述"><br>发现springMVC是在配置RequestMappingHandlerAdapter设置的HttpMessageConverter，进入getMessageConverters()方法<br><img src="https://s2.ax1x.com/2019/07/27/eKUpRA.png" alt="在这里插入图片描述"><br>根据我的工地英语8级，extendMessageConverters这个方法应该是在添加自定义的HttpMessageConverter，进入该方法<br><img src="https://s2.ax1x.com/2019/07/27/eKU9xI.png" alt="在这里插入图片描述"><br>空实现，很明显估计是模板模式，需要自己去扩展，于是自己写了一个配置类继承WebMvcConfigurationSupport,重写extendMessageConverters方法</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">extendMessageConverters</span><span class="params">(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters)</span> </span>&#123;</span><br><span class="line">    converters.add(<span class="keyword">new</span> BufferedImageHttpMessageConverter());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>浏览器再访问，二维码图片展示，问题解决</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>实现一个方案的过程中碰到了各种各样的奇怪问题，最好的方式是先网上找资料快速解决问题，如果无法解决，再通过自己走源码的方式从根本原因上寻找出现问题的原因，解决问题最复杂的地方是定位问题，问题定位了，解决便不再是难题</p>
@@ -469,7 +491,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -480,7 +502,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

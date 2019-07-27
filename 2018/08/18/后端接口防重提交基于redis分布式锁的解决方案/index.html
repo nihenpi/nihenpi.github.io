@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="二维码," />
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="场景在常规的web系统中，涉及到写操作的接口请求调用时，前端往往有做防止重复提交的验证，但是从系统的完整性上说，仅仅只在前端做校验实际上是有缺陷的，恶意调用接口者仍可通过其他工具重复调用接口，如果只是涉及读数据的接口可能还没什么问题，一旦重复调用涉及写的接口，则可能会造成无法预估的数据问题。 解决方案如果只是单机服务，可以直接使用单机线程锁，在接口调用完成之前锁住接口，获取锁失败则快速返回，防止用">
+<meta name="keywords" content="二维码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="后端接口防重提交的解决方案">
 <meta property="og:url" content="https://nihenpi.github.io/2018/08/18/后端接口防重提交基于redis分布式锁的解决方案/index.html">
@@ -87,7 +88,7 @@
 <meta property="og:description" content="场景在常规的web系统中，涉及到写操作的接口请求调用时，前端往往有做防止重复提交的验证，但是从系统的完整性上说，仅仅只在前端做校验实际上是有缺陷的，恶意调用接口者仍可通过其他工具重复调用接口，如果只是涉及读数据的接口可能还没什么问题，一旦重复调用涉及写的接口，则可能会造成无法预估的数据问题。 解决方案如果只是单机服务，可以直接使用单机线程锁，在接口调用完成之前锁住接口，获取锁失败则快速返回，防止用">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://s1.ax1x.com/2018/08/08/PsW5aF.png">
-<meta property="og:updated_time" content="2019-07-27T01:45:46.699Z">
+<meta property="og:updated_time" content="2019-07-27T04:23:59.663Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="后端接口防重提交的解决方案">
 <meta name="twitter:description" content="场景在常规的web系统中，涉及到写操作的接口请求调用时，前端往往有做防止重复提交的验证，但是从系统的完整性上说，仅仅只在前端做校验实际上是有缺陷的，恶意调用接口者仍可通过其他工具重复调用接口，如果只是涉及读数据的接口可能还没什么问题，一旦重复调用涉及写的接口，则可能会造成无法预估的数据问题。 解决方案如果只是单机服务，可以直接使用单机线程锁，在接口调用完成之前锁住接口，获取锁失败则快速返回，防止用">
@@ -294,6 +295,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/解决方案/" itemprop="url" rel="index">
+                    <span itemprop="name">解决方案</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -341,6 +364,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/二维码/" rel="tag"># 二维码</a>
+          
+        </div>
       
 
       
@@ -451,7 +480,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -462,7 +491,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

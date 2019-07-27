@@ -81,20 +81,20 @@
 
 <meta name="description" content="责任链模式，顾名思义，就是将需要实现的功能，拆分为各自专一的责任，组成一条责任链，来完成对数据的处理。 先看下面一段demo 需要被处理的对象类 123456789101112131415@Datapublic class User &amp;#123;    private String name;    private int age;    @Override    public String to">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【设计模式】责任链模式">
+<meta property="og:title" content="责任链模式">
 <meta property="og:url" content="https://nihenpi.github.io/2019/07/08/【设计模式】责任链模式/index.html">
 <meta property="og:site_name" content="小麻抄手">
 <meta property="og:description" content="责任链模式，顾名思义，就是将需要实现的功能，拆分为各自专一的责任，组成一条责任链，来完成对数据的处理。 先看下面一段demo 需要被处理的对象类 123456789101112131415@Datapublic class User &amp;#123;    private String name;    private int age;    @Override    public String to">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190708220054797.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190708220233870.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190708220801300.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190708220527379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-07-27T02:34:18.798Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKr7DA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKrHHI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKsCbn.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKsiEq.png">
+<meta property="og:updated_time" content="2019-07-27T05:18:25.626Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【设计模式】责任链模式">
+<meta name="twitter:title" content="责任链模式">
 <meta name="twitter:description" content="责任链模式，顾名思义，就是将需要实现的功能，拆分为各自专一的责任，组成一条责任链，来完成对数据的处理。 先看下面一段demo 需要被处理的对象类 123456789101112131415@Datapublic class User &amp;#123;    private String name;    private int age;    @Override    public String to">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190708220054797.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/27/eKr7DA.png">
 
 
 
@@ -130,7 +130,7 @@
 
 
 
-  <title>【设计模式】责任链模式 | 小麻抄手</title>
+  <title>责任链模式 | 小麻抄手</title>
   
 
 
@@ -274,7 +274,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【设计模式】责任链模式</h1>
+          <h1 class="post-title" itemprop="name headline">责任链模式</h1>
         
 
         <div class="post-meta">
@@ -296,6 +296,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -338,8 +360,8 @@
 <p>责任链实现类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterChain</span> <span class="keyword">implements</span> <span class="title">Chain</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Filter&gt; filters = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> pos = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FilterChain</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        filters.add(<span class="keyword">new</span> FirstFilter());</span><br><span class="line">        filters.add(<span class="keyword">new</span> SecondFilter());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(User user)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pos &lt; filters.size())&#123;</span><br><span class="line">            Filter filter = filters.get(pos++);</span><br><span class="line">            filter.doFilter(user, <span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        User user = <span class="keyword">new</span> User();</span><br><span class="line">        <span class="keyword">new</span> FilterChain().doFilter(user);</span><br><span class="line">        System.out.println(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">经过第一个处理器</span><br><span class="line">经过第二个处理器</span><br><span class="line">User&#123;name=&apos;jungle&apos;, age=1&#125;</span><br></pre></td></tr></table></figure></p>
 <p>以上责任链主要实现了两个功能，第一个处理器对user对象的年龄进行处理，第二个处理器对user对象的名字进行处理，可以看到，在对象走完整个责任链之后，对象的属性被初始化，整个责任链完成了自己的责任。在整个链中，每个处理器只需要完成自己负责的逻辑，完成之后便像工厂流水线一样传递到下一个处理器中，遵循了软件中高内聚，低耦合的思想，是一种非常经典的设计模式，一个非常经典的案例便是web应用服务器中的过滤器(Filter)。</p>
-<p>tomcat中的责任链，我们常说的过滤器，即是使用的责任链设计模式，主要负责处理解析出来的request和response对象<br>接口<br><img src="https://img-blog.csdnimg.cn/20190708220054797.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>链的实现类<br><img src="https://img-blog.csdnimg.cn/20190708220233870.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190708220801300.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>责任链处理完之后，抛个sevlet执行业务<br><img src="https://img-blog.csdnimg.cn/20190708220527379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>以上便是责任链模式的所有内容，希望各位看完之后能有所收获。</p>
+<p>tomcat中的责任链，我们常说的过滤器，即是使用的责任链设计模式，主要负责处理解析出来的request和response对象<br>接口<br><img src="https://s2.ax1x.com/2019/07/27/eKr7DA.png" alt="在这里插入图片描述"><br>链的实现类<br><img src="https://s2.ax1x.com/2019/07/27/eKrHHI.png" alt="在这里插入图片描述"><br><img src="https://s2.ax1x.com/2019/07/27/eKsCbn.png" alt="在这里插入图片描述"></p>
+<p>责任链处理完之后，抛个sevlet执行业务<br><img src="https://s2.ax1x.com/2019/07/27/eKsiEq.png" alt="在这里插入图片描述"><br>以上便是责任链模式的所有内容，希望各位看完之后能有所收获。</p>
 
       
     </div>
@@ -374,8 +396,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/14/【源码学习】HashMap源码学习/" rel="prev" title="【源码学习】HashMap源码学习">
-                【源码学习】HashMap源码学习 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/14/【源码学习】HashMap源码学习/" rel="prev" title="HashMap源码学习">
+                HashMap源码学习 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -459,7 +481,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -470,7 +492,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

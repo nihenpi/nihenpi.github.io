@@ -86,16 +86,16 @@
 <meta property="og:site_name" content="小麻抄手">
 <meta property="og:description" content="背景最近禅道bug比较多，自从参加工作以来，很少有写测试类的习惯，为了减少bug率，决定每次开发完之后都先严格自测一遍。 问题当前项目采用spring cloud 做微服务开发，所以写测试类必须启动上下文，在启动测试类时出现了如图所示的问题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410223309422.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410223627730.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410223955744.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410224541720.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190410224407412.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-07-27T02:13:56.691Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKtj9s.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKNpuV.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKNiEF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKNKHO.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKNlUe.png">
+<meta property="og:updated_time" content="2019-07-27T04:33:36.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java.lang.IllegalArgumentException: createCheck port must be greater than0">
 <meta name="twitter:description" content="背景最近禅道bug比较多，自从参加工作以来，很少有写测试类的习惯，为了减少bug率，决定每次开发完之后都先严格自测一遍。 问题当前项目采用spring cloud 做微服务开发，所以写测试类必须启动上下文，在启动测试类时出现了如图所示的问题。">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190410223309422.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/27/eKtj9s.png">
 
 
 
@@ -298,6 +298,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/问题日记/" itemprop="url" rel="index">
+                    <span itemprop="name">问题日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -327,16 +349,16 @@
       
         <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近禅道bug比较多，自从参加工作以来，很少有写测试类的习惯，为了减少bug率，决定每次开发完之后都先严格自测一遍。</p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>当前项目采用spring cloud 做微服务开发，所以写测试类必须启动上下文，在启动测试类时出现了如图所示的问题。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190410223309422.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKtj9s.png" alt="在这里插入图片描述"></p>
 <a id="more"></a>
 <p>正常启动应用没问题，但是一启动测试类就会出现这个问题，百度发现没有人出现过相关情况，于是决定debug运行过程，看看到底是哪里出了问题。</p>
 <p>先看报异常的地方</p>
-<p><img src="https://img-blog.csdnimg.cn/20190410223627730.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="报异常的地方"></p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKNpuV.png" alt="报异常的地方"></p>
 <p>可以看到是因为port不满足大于0的条件，才报的这个异常，那么port的值是什么时候设置的呢，代码往回走</p>
-<p><img src="https://img-blog.csdnimg.cn/20190410223955744.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKNiEF.png" alt="在这里插入图片描述"></p>
 <p>发现port的值为-1，确实是不满足条件的，根据源代码的参数名和和类名来看，这个port应该是从properties配置中读取出来的。而配置文件中是配置了这个参数的</p>
-<p><img src="https://img-blog.csdnimg.cn/20190410224541720.png" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20190410224407412.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKNKHO.png" alt="在这里插入图片描述"></p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKNlUe.png" alt="在这里插入图片描述"></p>
 <p>查看properties变量，发现里面确实有很多配置，发现port的值竟然是-1，很有可能是没有读取到properties文件中的配置。但是发现oscarbossuser这个变量又是读取到了，怀疑很有可能是${}这个表达式导致没有读取到这个变量。于是将serviceName随便改个名字，再debug，发现配置的值生效了。于是将port手动配置为8082，再启动测试类，果然测试通过，port的值能正确读取到了，问题便解决了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这个问题的发生的原因还是配置没有被正确读取到，无法在网上获取足够的经验前，自己亲自到代码中去查找原因才是最靠谱的，而且解决这种问题要善于使用控制变量法和大胆猜测，先提出怀疑，再改变部分因素查证，问题的原因便能很快定位到。</p>
 
@@ -467,7 +489,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -478,7 +500,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

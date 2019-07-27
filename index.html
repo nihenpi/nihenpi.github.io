@@ -271,7 +271,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/07/14/【源码学习】HashMap源码学习/" itemprop="url">【源码学习】HashMap源码学习</a></h1>
+                <a class="post-title-link" href="/2019/07/14/【源码学习】HashMap源码学习/" itemprop="url">HashMap源码学习</a></h1>
         
 
         <div class="post-meta">
@@ -347,7 +347,7 @@
           <p>网上关于HashMap的博客实在是太多了，我再系统地来讲HashMap肯定没有现有的博客讲的好，所以我决定换一个角度，就从我们日常使用的地方开始，完整的走一遍HashMap的源码，应该会有不一样的收获。</p>
 <p>先看下面一段代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map map = <span class="keyword">new</span> HashMap();</span><br><span class="line">map.put(<span class="string">"key"</span>,<span class="string">"value"</span>);</span><br><span class="line">map.get(<span class="string">"key"</span>);</span><br></pre></td></tr></table></figure>
-<p>平时开发中很常见的用法，需要注意的是，由于使用了阿里巴巴规范插件，new HashMap的地方是有如下提示的<br><img src="https://img-blog.csdnimg.cn/20190711215829751.png" alt=""></p>
+<p>平时开发中很常见的用法，需要注意的是，由于使用了阿里巴巴规范插件，new HashMap的地方是有如下提示的<br><img src="https://s2.ax1x.com/2019/07/27/eKsk5V.png" alt=""></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/07/14/【源码学习】HashMap源码学习/#more" rel="contents">
@@ -420,7 +420,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/07/08/【设计模式】责任链模式/" itemprop="url">【设计模式】责任链模式</a></h1>
+                <a class="post-title-link" href="/2019/07/08/【设计模式】责任链模式/" itemprop="url">责任链模式</a></h1>
         
 
         <div class="post-meta">
@@ -442,6 +442,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -570,6 +592,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/问题日记/" itemprop="url" rel="index">
+                    <span itemprop="name">问题日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -695,6 +739,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/解决方案/" itemprop="url" rel="index">
+                    <span itemprop="name">解决方案</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -823,6 +889,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/问题日记/" itemprop="url" rel="index">
+                    <span itemprop="name">问题日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -853,7 +941,7 @@
         
           <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近禅道bug比较多，自从参加工作以来，很少有写测试类的习惯，为了减少bug率，决定每次开发完之后都先严格自测一遍。</p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>当前项目采用spring cloud 做微服务开发，所以写测试类必须启动上下文，在启动测试类时出现了如图所示的问题。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190410223309422.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKtj9s.png" alt="在这里插入图片描述"></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/04/10/java-lang-IllegalArgumentException-createCheck-port-must-be-greater-than0/#more" rel="contents">
@@ -948,6 +1036,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1086,6 +1196,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/解决方案/" itemprop="url" rel="index">
+                    <span itemprop="name">解决方案</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -1218,7 +1350,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1229,7 +1361,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -86,18 +86,18 @@
 <meta property="og:site_name" content="小麻抄手">
 <meta property="og:description" content="背景最近在做一个移动端h5项目的后端应用，接口联调时前端反应说登录有问题，先简单介绍一下我们的权限实现，jwt加spring security，使用redis做的session中心存放token。 1.前端请求登录接口，核对成功返回用户信息和token，同时将此信息保存于redis中2.访问后端接口需要将token保存于header中，请求先经过安全Filter，会从token中解析出subjec">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704201526638.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704201633954.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704203528336.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704203958685.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704204307907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704204427449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190704204452216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-07-27T02:27:55.523Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eK05cj.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eK0zv9.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKBk4O.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKBZgH.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKBuDI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKDGo6.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKrEXd.png">
+<meta property="og:updated_time" content="2019-07-27T05:13:59.849Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Filter servlet interceptor 的执行顺序问题">
 <meta name="twitter:description" content="背景最近在做一个移动端h5项目的后端应用，接口联调时前端反应说登录有问题，先简单介绍一下我们的权限实现，jwt加spring security，使用redis做的session中心存放token。 1.前端请求登录接口，核对成功返回用户信息和token，同时将此信息保存于redis中2.访问后端接口需要将token保存于header中，请求先经过安全Filter，会从token中解析出subjec">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190704201526638.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/27/eK05cj.png">
 
 
 
@@ -300,6 +300,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/问题日记/" itemprop="url" rel="index">
+                    <span itemprop="name">问题日记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -331,8 +353,8 @@
 <p>1.前端请求登录接口，核对成功返回用户信息和token，同时将此信息保存于redis中<br>2.访问后端接口需要将token保存于header中，请求先经过安全Filter，会从token中解析出subject，然后去redis中查询看是否存在对应token<br>3.token相同则继续往下执行，token不同则说明登录已过期，返回401</p>
 <p>具体情况是登录成功进入数据页面之后就会请求初始数据，但是请求初始数据时就会返回401，提示未登录然后跳转回登录页面，出现问题第一时间肯定是想办法甩锅，于是马上用postman进行接口自测，果然，postman测接口一切正常。怀疑是不是前端vue的状态管理有问题导致传的token不对，和redis中查到的token不同导致的，然而经过核对，传的的确是登录接口返回的token。锅又回到了我这边。</p>
 <a id="more"></a>
-<h3 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h3><p>涉及到公司封装的底层，唯一的解决办法就是debug源码<br><img src="https://img-blog.csdnimg.cn/20190704201526638.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>发现，此处getSession时的确返回的是null，进入方法<br><img src="https://img-blog.csdnimg.cn/20190704201633954.png" alt="在这里插入图片描述"><br>发现determinKey方法，里面使用spring的mobile的一个框架，此处的用途是将移动端用户登录和浏览器端用户登录区分出来，用不同的前缀，实现独立登录互不影响的效果，代码如下<br><img src="https://img-blog.csdnimg.cn/20190704203528336.png" alt="在这里插入图片描述"><br>在写session和读session的时候都会调用到此方法，debug一遍之后，逐渐发现不对劲，在登录成功写session之后，DeviceUtils.getCurrentDevice(request)返回的对象是MOBILE，是不为空的，但是在读session时，获取到的device却是为null的，只好再进入getCurrentDevice方法一探究竟，代码如下<br><img src="https://img-blog.csdnimg.cn/20190704203958685.png" alt="在这里插入图片描述"><br>是去request的域中获取currentDevice时取不到值导致的，那么什么时候往里面写的这个属性呢？网上一查，原来是在spring的一个拦截器中实现的</p>
-<p><img src="https://img-blog.csdnimg.cn/20190704204307907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>继续追寻<br><img src="https://img-blog.csdnimg.cn/20190704204427449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190704204452216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3NpbmF0XzI1NDg0MzI3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>来到了springMVC最核心的servlet类中，发现请求数据的接口根本执行不到这里来，没有执行该拦截器，所以读session时也就获取不到device对象，那么为什么会不执行呢，上网一查，恍然大悟，原来是filter、servlet、interceptor之间的执行顺序造成，之所以登录能成功，是因为登录接口是无需权限验证的，绕过filter之后执行了拦截器的内容，写入了设备相关信息，在写session时会根据设备类型用不同的前缀存，但在读session时，因为filter比拦截器先执行，所以读不到设备信息，便会用默认的浏览器前缀的key去查session，所以便查不到session，返回401</p>
+<h3 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h3><p>涉及到公司封装的底层，唯一的解决办法就是debug源码<br><img src="https://s2.ax1x.com/2019/07/27/eK05cj.png" alt="在这里插入图片描述"><br>发现，此处getSession时的确返回的是null，进入方法<br><img src="https://s2.ax1x.com/2019/07/27/eK0zv9.png" alt="在这里插入图片描述"><br>发现determinKey方法，里面使用spring的mobile的一个框架，此处的用途是将移动端用户登录和浏览器端用户登录区分出来，用不同的前缀，实现独立登录互不影响的效果，代码如下<br><img src="https://s2.ax1x.com/2019/07/27/eKBk4O.png" alt="在这里插入图片描述"><br>在写session和读session的时候都会调用到此方法，debug一遍之后，逐渐发现不对劲，在登录成功写session之后，DeviceUtils.getCurrentDevice(request)返回的对象是MOBILE，是不为空的，但是在读session时，获取到的device却是为null的，只好再进入getCurrentDevice方法一探究竟，代码如下<br><img src="https://s2.ax1x.com/2019/07/27/eKBZgH.png" alt="在这里插入图片描述"><br>是去request的域中获取currentDevice时取不到值导致的，那么什么时候往里面写的这个属性呢？网上一查，原来是在spring的一个拦截器中实现的</p>
+<p><img src="https://s2.ax1x.com/2019/07/27/eKBuDI.png" alt="在这里插入图片描述"><br>继续追寻<br><img src="https://s2.ax1x.com/2019/07/27/eKDGo6.png" alt="在这里插入图片描述"><br><img src="https://s2.ax1x.com/2019/07/27/eKrEXd.png" alt="在这里插入图片描述"><br>来到了springMVC最核心的servlet类中，发现请求数据的接口根本执行不到这里来，没有执行该拦截器，所以读session时也就获取不到device对象，那么为什么会不执行呢，上网一查，恍然大悟，原来是filter、servlet、interceptor之间的执行顺序造成，之所以登录能成功，是因为登录接口是无需权限验证的，绕过filter之后执行了拦截器的内容，写入了设备相关信息，在写session时会根据设备类型用不同的前缀存，但在读session时，因为filter比拦截器先执行，所以读不到设备信息，便会用默认的浏览器前缀的key去查session，所以便查不到session，返回401</p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>既然是顺序问题，于是便把判断客户端类型的逻辑迁移到权限Filter之前，读session时即可能争取获得session前缀</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>执行顺序： Filter =&gt; Interceptor =&gt; Servlet</p>
 
@@ -369,8 +391,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/08/【设计模式】责任链模式/" rel="prev" title="【设计模式】责任链模式">
-                【设计模式】责任链模式 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/08/【设计模式】责任链模式/" rel="prev" title="责任链模式">
+                责任链模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -463,7 +485,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -474,7 +496,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
