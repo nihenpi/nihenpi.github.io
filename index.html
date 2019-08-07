@@ -252,6 +252,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2019/07/29/《java并发编程的艺术》读书笔记一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黄杨路打字员">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小麻抄手">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/29/《java并发编程的艺术》读书笔记一/" itemprop="url">《java并发编程的艺术》读书笔记一</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-29T22:21:14+08:00">
+                2019-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="并发编程的挑战"><a href="#并发编程的挑战" class="headerlink" title="并发编程的挑战"></a>并发编程的挑战</h2><p>并发编程的目的是为了让程序运行得更快，但是，并不是启动更多的线程就一定能让程序运行得更快，在进行并发编程时，会面临非常多的挑战，常见的问题如下：</p>
+<ul>
+<li>上下文切换，影响执行效率</li>
+<li>死锁，导致业务无法正常进行</li>
+<li>硬件软件资源的限制</li>
+</ul>
+<h3 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h3><p>单核处理器也支持多线程执行代码，CPU是通过给每个线程分配CPU时间片来实现这个机制。时间片一般是几十毫秒(ms)，非常短暂，所以我们无法感知，感觉多个线程就是同时执行的。CPU通过时间片分配算法来循环执行任务，某个任务执行一个时间片后会切换到下一个任务，在切换前会保存上一个任务的执行状态，在下次切换回这个任务时，可以再加载这个任务的状态。<strong>所以任务从保存到再加载的过程就是一次上下文切换。</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/29/《java并发编程的艺术》读书笔记一/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2019/07/28/nginx操作笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1489,7 +1641,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1511,7 +1663,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

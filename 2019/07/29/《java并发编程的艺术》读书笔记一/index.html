@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="并发编程," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="并发编程的挑战并发编程的目的是为了让程序运行得更快，但是，并不是启动更多的线程就一定能让程序运行得更快，在进行并发编程时，会面临非常多的挑战，常见的问题如下：  上下文切换，影响执行效率 死锁，导致业务无法正常进行 硬件软件资源的限制  上下文切换单核处理器也支持多线程执行代码，CPU是通过给每个线程分配CPU时间片来实现这个机制。时间片一般是几十毫秒(ms)，非常短暂，所以我们无法感知，感觉多个">
+<meta name="keywords" content="并发编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《java并发编程的艺术》读书笔记一">
+<meta property="og:url" content="https://nihenpi.github.io/2019/07/29/《java并发编程的艺术》读书笔记一/index.html">
+<meta property="og:site_name" content="小麻抄手">
+<meta property="og:description" content="并发编程的挑战并发编程的目的是为了让程序运行得更快，但是，并不是启动更多的线程就一定能让程序运行得更快，在进行并发编程时，会面临非常多的挑战，常见的问题如下：  上下文切换，影响执行效率 死锁，导致业务无法正常进行 硬件软件资源的限制  上下文切换单核处理器也支持多线程执行代码，CPU是通过给每个线程分配CPU时间片来实现这个机制。时间片一般是几十毫秒(ms)，非常短暂，所以我们无法感知，感觉多个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/31/eN5Vpt.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/31/eN52nO.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/08/07/eoP1iT.jpg">
+<meta property="og:updated_time" content="2019-08-07T14:36:23.427Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《java并发编程的艺术》读书笔记一">
+<meta name="twitter:description" content="并发编程的挑战并发编程的目的是为了让程序运行得更快，但是，并不是启动更多的线程就一定能让程序运行得更快，在进行并发编程时，会面临非常多的挑战，常见的问题如下：  上下文切换，影响执行效率 死锁，导致业务无法正常进行 硬件软件资源的限制  上下文切换单核处理器也支持多线程执行代码，CPU是通过给每个线程分配CPU时间片来实现这个机制。时间片一般是几十毫秒(ms)，非常短暂，所以我们无法感知，感觉多个">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/07/31/eN5Vpt.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://nihenpi.github.io/2019/07/29/《java并发编程的艺术》读书笔记一/"/>
+
+
+
+
+
+  <title>《java并发编程的艺术》读书笔记一 | 小麻抄手</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小麻抄手</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Hello Word</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2019/07/29/《java并发编程的艺术》读书笔记一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黄杨路打字员">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小麻抄手">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《java并发编程的艺术》读书笔记一</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-29T22:21:14+08:00">
+                2019-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="并发编程的挑战"><a href="#并发编程的挑战" class="headerlink" title="并发编程的挑战"></a>并发编程的挑战</h2><p>并发编程的目的是为了让程序运行得更快，但是，并不是启动更多的线程就一定能让程序运行得更快，在进行并发编程时，会面临非常多的挑战，常见的问题如下：</p>
+<ul>
+<li>上下文切换，影响执行效率</li>
+<li>死锁，导致业务无法正常进行</li>
+<li>硬件软件资源的限制</li>
+</ul>
+<h3 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h3><p>单核处理器也支持多线程执行代码，CPU是通过给每个线程分配CPU时间片来实现这个机制。时间片一般是几十毫秒(ms)，非常短暂，所以我们无法感知，感觉多个线程就是同时执行的。CPU通过时间片分配算法来循环执行任务，某个任务执行一个时间片后会切换到下一个任务，在切换前会保存上一个任务的执行状态，在下次切换回这个任务时，可以再加载这个任务的状态。<strong>所以任务从保存到再加载的过程就是一次上下文切换。</strong></p>
+<a id="more"></a>
+<h4 id="多线程一定快吗"><a href="#多线程一定快吗" class="headerlink" title="多线程一定快吗"></a>多线程一定快吗</h4><p>先看下面一段测试代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcurrencyTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> count = <span class="number">100001</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        concurrency();</span><br><span class="line">        serial();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serial</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            a += <span class="number">5</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            b--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> time = System.currentTimeMillis() - start;</span><br><span class="line">        System.out.println(<span class="string">"serial:"</span> + time + <span class="string">"ms,b="</span> + b + <span class="string">",a="</span> + a);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">concurrency</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">int</span> a = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">                    a += <span class="number">5</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.start();</span><br><span class="line">        <span class="keyword">int</span> b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">long</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            b--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//join之后thread执行完成之后主线程才会继续执行,在此之前thread和main线程并发执行</span></span><br><span class="line">        thread.join();</span><br><span class="line">        <span class="keyword">long</span> time = System.currentTimeMillis() - start;</span><br><span class="line">        System.out.println(<span class="string">"concurrency :"</span> + time + <span class="string">" ms, b="</span> + b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>建议读者朋友们可以先用上面代码在本机上实验一下，我的电脑测试结果如下(不同机器执行结果会有差异)</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">循环次数</th>
+<th style="text-align:center">串行执行耗时/ms</th>
+<th style="text-align:center">并发执行耗时</th>
+<th style="text-align:center">并发比串行快多少</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1亿</td>
+<td style="text-align:center">80</td>
+<td style="text-align:center">42</td>
+<td style="text-align:center">快1倍</td>
+</tr>
+<tr>
+<td style="text-align:center">1千万</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">14</td>
+<td style="text-align:center">慢</td>
+</tr>
+<tr>
+<td style="text-align:center">1百万</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">慢</td>
+</tr>
+<tr>
+<td style="text-align:center">10万</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">慢</td>
+</tr>
+<tr>
+<td style="text-align:center">1万</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">慢</td>
+</tr>
+</tbody>
+</table>
+<p>从表格中可以发现，当并发执行累加操作次数在1千万左右之前，并发执行比串行执行还要慢，为什么呢？<strong>这是因为线程有创建和上下文切换的开销。</strong></p>
+<h4 id="如何减少上下文切换"><a href="#如何减少上下文切换" class="headerlink" title="如何减少上下文切换"></a>如何减少上下文切换</h4><ul>
+<li>无锁并发编程。多线程竞争锁时，会引起上下文切换，所以多线程处理数据时，可以使用一些办法来避免使用锁，如将数据的ID按照Hash算法取模分段，不同的线程处理不同段的数据。ConcurrentHashMap?</li>
+<li>CAS算法。Java的Atomic包使用CAS算法来更新数据，所以不需要加锁。乐观锁？</li>
+<li>使用最少线程，即尽量用最少的线程处理数据，减少了创建线程的开销，而且会出现大量线程处于等待状态的情况</li>
+<li>协程，在单线程里实现多任务的调度，并在单线程里维持多个任务间的切换</li>
+</ul>
+<h4 id="减少上下文切换实战"><a href="#减少上下文切换实战" class="headerlink" title="减少上下文切换实战"></a>减少上下文切换实战</h4><p> 书中使用JBOSS服务器做实验，作者使用springboot内置tomcat测试(此处为方便测试，tomcat最小空闲线程数有改动如下)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.tomcat.minSpareThreads=50</span><br></pre></td></tr></table></figure>
+<p><strong>第一步</strong> 启动springboot应用程序,使用jps获取pid，可以看到pid为70410</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jungle@AppledeMacBook-Pro ~$ jps -l</span><br><span class="line">70401 org.jetbrains.idea.maven.server.RemoteMavenServer</span><br><span class="line">70441 sun.tools.jps.Jps</span><br><span class="line">70411 org.jetbrains.jps.cmdline.Launcher</span><br><span class="line">70410 com.jungle.Application</span><br><span class="line">69999 </span><br><span class="line">jungle@AppledeMacBook-Pro ~$</span><br></pre></td></tr></table></figure>
+<p><strong>第二步</strong>  用jstack命令dump线程信息，查看pid为70410的进程里的线程的工作状况</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jungle@AppledeMacBook-Pro ~$ jstack 70410 &gt; dumpFile</span><br></pre></td></tr></table></figure>
+<p><strong>第三步</strong>  用WAITING搜索dump文件，发现有56个匹配</p>
+<p><img src="https://s2.ax1x.com/2019/07/31/eN5Vpt.png" alt="avatar"></p>
+<p><strong>第四步</strong> 将最小空闲线程数配置为10，减少线程切换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.tomcat.minSpareThreads=10</span><br></pre></td></tr></table></figure>
+<p><strong>第五步</strong> 重启服务，重新dump文件并搜索WAITING</p>
+<p><img src="https://s2.ax1x.com/2019/07/31/eN52nO.jpg" alt="avatar"></p>
+<p>可以看到，处于等待状态的线程数减少了40个，WAITING的线程减少了，系统上下文切换的次数也会减少，因为每一次从WAITING到RUNNABLE都会进行一次上下文的切换</p>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>先看demo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeadLockDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String A = <span class="string">"A"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String B = <span class="string">"B"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> DeadLockDemo().deadLock();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">deadLock</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (A) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">synchronized</span> (B) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"1"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Thread t2 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (B) &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (A) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"2"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码解释：以上代码运行时可能会出现这样一种情况，当t1线程获取到A锁后，在获取到B锁前，cpu执行到t2线程，t2线程获取到B锁，却拿不到A锁，此时A锁被t1线程持有，而t1线程又无法获取到B锁，两个线程互相等待对方释放锁，进入阻塞状态，程序无法正常执行.线程状态dump文件如图所示：</p>
+<p><img src="https://s2.ax1x.com/2019/08/07/eoP1iT.jpg" alt="avatar"></p>
+<h3 id="资源限制的挑战"><a href="#资源限制的挑战" class="headerlink" title="资源限制的挑战"></a>资源限制的挑战</h3><ul>
+<li>什么是资源限制</li>
+</ul>
+<p>指在进行并发编程时，程序的执行速度受限于计算机硬件资源或软件资源，例如服务器的带宽限制或硬盘读写速度</p>
+<ul>
+<li>资源限制引发的问题</li>
+</ul>
+<p>在并发编程中，将代码执行速度加快的原则是将代码中串行执行的部分编程并发执行，但是如果将某段串行的代码并发执行，由于资源限制导致仍然在串行执行，这时候由于上下文切换和资源调度，反而会影响执行效率</p>
+<ul>
+<li><p>如何解决资源限制的问题</p>
+<ul>
+<li>硬件：集群并行执行</li>
+<li>软件：使用资源池将资源复用，例如用连接池将数据库和Socket连接复用</li>
+</ul>
+</li>
+<li><p>在资源限制情况下进行并发编程</p>
+</li>
+</ul>
+<p>如何在资源限制的情况下，让程序执行更快呢，方法是，根据不同的资源限制调整程序的并发度。比如，数据库操作时，如果sql语句执行非常快，线程的数量比数据库连接数大很多，则多出来的线程会被阻塞，等待数据库连接，此时可以选择增加数据库连接池的最大连接数，减少阻塞的线程，或者减少执行线程的数量，减少上下文切换导致的效率影响</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>多使用JDK并发包提供的并发容器和工具类来解决并发问题，因为这些类都已经通过了充分的测试和优化，均可解决本章提到的几个挑战 </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/并发编程/" rel="tag"># 并发编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/28/nginx操作笔记/" rel="next" title="nginx操作笔记">
+                <i class="fa fa-chevron-left"></i> nginx操作笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="黄杨路打字员" />
+            
+              <p class="site-author-name" itemprop="name">黄杨路打字员</p>
+              <p class="site-description motion-element" itemprop="description">认真工作 快乐生活</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/nihenpi" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jungle0916@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#并发编程的挑战"><span class="nav-number">1.</span> <span class="nav-text">并发编程的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#上下文切换"><span class="nav-number">1.1.</span> <span class="nav-text">上下文切换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多线程一定快吗"><span class="nav-number">1.1.1.</span> <span class="nav-text">多线程一定快吗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何减少上下文切换"><span class="nav-number">1.1.2.</span> <span class="nav-text">如何减少上下文切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#减少上下文切换实战"><span class="nav-number">1.1.3.</span> <span class="nav-text">减少上下文切换实战</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁"><span class="nav-number">1.2.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资源限制的挑战"><span class="nav-number">1.3.</span> <span class="nav-text">资源限制的挑战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">1.4.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黄杨路打字员</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv">
+    您是第<span id="busuanzi_value_site_uv"></span>位童鞋
+</span>
+</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
