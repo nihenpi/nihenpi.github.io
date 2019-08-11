@@ -81,14 +81,14 @@
 
 <meta name="description" content="单例模式介绍在java编程中，某些情况下，某种实例我们需要保证它在进程中的唯一性，即只有一个该类的实例，这便是单例模式。既然只允许有一个实例，所以它的构造方法必须是私有的,否则随处都可以实例化该类，无法达到单例的目的，构造器私有，那么该单例对象的初始化必须在本类中，同时还需要通过通公共方法将实例暴露出去。 综上所述，得出单例模式3个特点：  构造方法私有 本类中初始化实例对象 存在暴露单例对象的公">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【设计模式】单例模式">
+<meta property="og:title" content="单例模式">
 <meta property="og:url" content="https://nihenpi.github.io/2019/08/11/【设计模式】单例模式/index.html">
 <meta property="og:site_name" content="小麻抄手">
 <meta property="og:description" content="单例模式介绍在java编程中，某些情况下，某种实例我们需要保证它在进程中的唯一性，即只有一个该类的实例，这便是单例模式。既然只允许有一个实例，所以它的构造方法必须是私有的,否则随处都可以实例化该类，无法达到单例的目的，构造器私有，那么该单例对象的初始化必须在本类中，同时还需要通过通公共方法将实例暴露出去。 综上所述，得出单例模式3个特点：  构造方法私有 本类中初始化实例对象 存在暴露单例对象的公">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-11T12:12:07.577Z">
+<meta property="og:updated_time" content="2019-08-11T12:41:02.518Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【设计模式】单例模式">
+<meta name="twitter:title" content="单例模式">
 <meta name="twitter:description" content="单例模式介绍在java编程中，某些情况下，某种实例我们需要保证它在进程中的唯一性，即只有一个该类的实例，这便是单例模式。既然只允许有一个实例，所以它的构造方法必须是私有的,否则随处都可以实例化该类，无法达到单例的目的，构造器私有，那么该单例对象的初始化必须在本类中，同时还需要通过通公共方法将实例暴露出去。 综上所述，得出单例模式3个特点：  构造方法私有 本类中初始化实例对象 存在暴露单例对象的公">
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>【设计模式】单例模式 | 小麻抄手</title>
+  <title>单例模式 | 小麻抄手</title>
   
 
 
@@ -269,7 +269,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">【设计模式】单例模式</h1>
+          <h1 class="post-title" itemprop="name headline">单例模式</h1>
         
 
         <div class="post-meta">
@@ -348,6 +348,7 @@
 <li>本类中初始化实例对象</li>
 <li>存在暴露单例对象的公共方法</li>
 </ul>
+<a id="more"></a>
 <h3 id="单例模式分类"><a href="#单例模式分类" class="headerlink" title="单例模式分类"></a>单例模式分类</h3><p>那么，初始化实例对象是在什么时候呢？根据初始化时间的不同，我们一般将单例模式分为以下两类：</p>
 <ul>
 <li>在类加载时就进行初始化，称为<strong>饿汉式单例</strong>，不存在线程同步问题</li>
@@ -362,7 +363,7 @@
 <p>这段代码并不能解决线程并发问题，因为当多个线程都在执行过if判定，而在获取到锁之前发生线程切换时，单例对象还是会被多次实例化，无法实现单例模式，因此，我们需要在拿到锁之后再判定一次对象是否为空，正确代码如下所示：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Singleton singleton;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Singleton <span class="title">getSingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (Singleton.class) &#123;</span><br><span class="line">                <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    singleton = <span class="keyword">new</span> Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>有的同学可能会问，为什么不直接在方法上使用synchronized加锁，这样肯定能保证不会出现线程并发问题，原因是因为synchronized是一种比较重的锁，如果每次获取单例实例都要先拿锁的话，会使获取单例对象的方法编程串行执行，部分线程可能处于阻塞，没有并发执行效率高，当单例对象初始化之后，后续就不会出现获取锁的操作，执行性能也会高很多。</p>
-<p>以上就是单例模式的相关介绍，个人经验有限可能会有一些不足，欢迎各位同学指正。</p>
+<h3 id="单例模式的应用场景"><a href="#单例模式的应用场景" class="headerlink" title="单例模式的应用场景"></a>单例模式的应用场景</h3><p>在某些业务场景下，如果需要保证某些资源的唯一性，例如全局统一配置，数据库连接池对象，全局缓存等场景，就可以使用到单例模式。</p>
 
       
     </div>
@@ -547,7 +548,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式介绍"><span class="nav-number">1.</span> <span class="nav-text">单例模式介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式分类"><span class="nav-number">2.</span> <span class="nav-text">单例模式分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#饿汉式单例"><span class="nav-number">2.1.</span> <span class="nav-text">饿汉式单例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#懒汉式单例"><span class="nav-number">2.2.</span> <span class="nav-text">懒汉式单例</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式介绍"><span class="nav-number">1.</span> <span class="nav-text">单例模式介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式分类"><span class="nav-number">2.</span> <span class="nav-text">单例模式分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#饿汉式单例"><span class="nav-number">2.1.</span> <span class="nav-text">饿汉式单例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#懒汉式单例"><span class="nav-number">2.2.</span> <span class="nav-text">懒汉式单例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式的应用场景"><span class="nav-number">3.</span> <span class="nav-text">单例模式的应用场景</span></a></li></ol></div>
             
 
           </div>
