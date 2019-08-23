@@ -252,6 +252,194 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2019/08/11/《java并发编程的艺术》读书笔记二/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黄杨路打字员">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小麻抄手">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/11/《java并发编程的艺术》读书笔记二/" itemprop="url">《java并发编程的艺术》读书笔记二</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-11T21:03:23+08:00">
+                2019-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>此文仅作为读书笔记</p>
+</blockquote>
+<h3 id="volatile的应用"><a href="#volatile的应用" class="headerlink" title="volatile的应用"></a>volatile的应用</h3><h4 id="volatile的定义与实现原理"><a href="#volatile的定义与实现原理" class="headerlink" title="volatile的定义与实现原理"></a>volatile的定义与实现原理</h4><p>volatile的定义</p>
+<blockquote>
+<p>java编程语言允许线程访问共享变量，为了确保共享变量能被准确和一致地更新，线程应该确保通过排它锁单独获得这个变量。如果一个字段被声明成volatile，java线程内存模型确保所有线程看到这个变量的值是一致的。</p>
+</blockquote>
+<p>在了解volatile的实现原理之前，最好先熟悉与其实现原理相关的CPU术语与说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">术语</th>
+<th style="text-align:center">英文单词</th>
+<th style="text-align:center">术语描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">内存屏障</td>
+<td style="text-align:center">memory barriers</td>
+<td style="text-align:center">是一组处理器指令，用于实现对内存操作的顺序限制</td>
+</tr>
+<tr>
+<td style="text-align:center">缓冲行</td>
+<td style="text-align:center">cache line</td>
+<td style="text-align:center">CPU高速缓存中可以分配的最小存储单位。处理器填写缓存行时会加载整个缓存行，现代CPU一秒钟需要执行几百次CPU指令 </td>
+</tr>
+<tr>
+<td style="text-align:center">原子操作</td>
+<td style="text-align:center">atomic operations</td>
+<td style="text-align:center">不可中断的一个或一系列操作 </td>
+</tr>
+<tr>
+<td style="text-align:center">缓存行填充</td>
+<td style="text-align:center">cache line fill</td>
+<td style="text-align:center">当处理器识别到从内存中读取操作数是可缓存的，处理器读取整个高速缓存行到适当的缓存(L1,L2,L3的或所有) </td>
+</tr>
+<tr>
+<td style="text-align:center">缓存命中</td>
+<td style="text-align:center">cache hit</td>
+<td style="text-align:center">如果进行高速缓存行填充操作的内存位置仍然是下次处理器访问的地址时，处理器从缓存中读取操作数，而不是从内存中读取 </td>
+</tr>
+<tr>
+<td style="text-align:center">写命中</td>
+<td style="text-align:center">write hit</td>
+<td style="text-align:center">当处理器将操作数写回到一个内存缓存的区域时，它首先会检查这个缓存的内存地址是否在缓存行中，如果存在一个有效的缓存行，则处理器将这个操作数写回到缓存，而不是写回到内存，这个操作被称为写命中 </td>
+</tr>
+<tr>
+<td style="text-align:center">写缺失</td>
+<td style="text-align:center">write misses the cache</td>
+<td style="text-align:center">一个有效的缓存行被写入到不存在的内存区域 </td>
+</tr>
+</tbody>
+</table>
+<p>volatile是如何保证可见性的呢？通过工具获取JIT编译器生成的汇编指令来查看对volatile进行写操作时，发现指令前会加上lock前缀。lock前缀的指令在多喝处理器下会引发一下两件事：</p>
+<ul>
+<li>将当前处理器缓存行的数据写回到系统内存</li>
+<li>这个写回内存的操作会使在其他CPU里缓存了该内存地址的数据无效</li>
+</ul>
+<p><strong>为了提高处理速度，处理器不直接和内存进行通信，而是先将系统内存的数据读到内部缓存后再进行操作，但操作完不知道何时会写到内存。如果对声明了volatile的变量进行写操作，JVM就会向处理器发送一条Lock前缀的指令，将这个变量所在缓存行的数据写回到系统内存。但是，就算写回到内存，如果其他处理器缓存的值还是旧的，再执行计算操作就会有问题。所以，在多处理器下，为了保证各个处理器的缓存是一致的，就会实现缓存一致性协议，每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置成无效状态，当处理器对这个数据进行修改操作的时候，会重新从系统内存中把数据读到处理器缓存里。</strong></p>
+<p>volatile的两条实现原则：</p>
+<ul>
+<li>lock前缀指令会引起处理器缓存回写到内存</li>
+<li>一个处理器的缓存回写到内存会导致其他处理器的缓存无效</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/11/《java并发编程的艺术》读书笔记二/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2019/08/11/【设计模式】单例模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1595,157 +1783,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://nihenpi.github.io/2018/08/18/后端接口防重提交基于redis分布式锁的解决方案/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="黄杨路打字员">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小麻抄手">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/18/后端接口防重提交基于redis分布式锁的解决方案/" itemprop="url">后端接口防重提交的解决方案</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-18T22:39:27+08:00">
-                2018-08-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/解决方案/" itemprop="url" rel="index">
-                    <span itemprop="name">解决方案</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>在常规的web系统中，涉及到写操作的接口请求调用时，前端往往有做防止重复提交的验证，但是从系统的完整性上说，仅仅只在前端做校验实际上是有缺陷的，恶意调用接口者仍可通过其他工具重复调用接口，如果只是涉及读数据的接口可能还没什么问题，一旦重复调用涉及写的接口，则可能会造成无法预估的数据问题。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>如果只是单机服务，可以直接使用单机线程锁，在接口调用完成之前锁住接口，获取锁失败则快速返回，防止用户重复提交。考虑到系统的扩展性，使用基于redis的分布式锁，使用的spring的切面做前置增强获取锁，后置增强释放锁。</p>
-<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p><img src="https://s1.ax1x.com/2018/08/08/PsW5aF.png" alt="avatar"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/08/18/后端接口防重提交基于redis分布式锁的解决方案/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1793,7 +1837,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
