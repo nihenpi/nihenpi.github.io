@@ -91,7 +91,9 @@
 <meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKsV8U.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKsZ2F.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/07/27/eKsJ2D.png">
-<meta property="og:updated_time" content="2019-09-10T14:24:31.384Z">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/nHTTsI.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/09/18/nHbVM9.jpg">
+<meta property="og:updated_time" content="2019-09-18T14:43:07.225Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap源码学习">
 <meta name="twitter:description" content="网上关于HashMap的博客实在是太多了，我再系统地来讲HashMap肯定没有现有的博客讲的好，所以我决定换一个角度，就从我们日常使用的地方开始，完整的走一遍HashMap的源码，应该会有不一样的收获。 先看下面一段代码 123Map map = new HashMap();map.put(&quot;key&quot;,&quot;value&quot;);map.get(&quot;key&quot;); 平时开发中很常见的用法，需要注意的是，由于使用">
@@ -387,6 +389,16 @@
 </ul>
 <p>1010 &amp; 1100101 结果为0，index=0</p>
 <p>这种情况下，更容易发生碰撞，使用2的幂次方-1，保证了较低位尽量为1，与hash值与运算时，能更多的体现hash值的特征，保证放置的key的均匀性，提高hashmap的读写性能。因此，HashMap中数组的长度使用2的幂次方</p>
+<h4 id="HashMap的扩容机制"><a href="#HashMap的扩容机制" class="headerlink" title="HashMap的扩容机制"></a>HashMap的扩容机制</h4><p>当hashmap中键值对的数量达到threshold（即数组长度*加载因子）时，会触发hashmap的扩容。过程如下：</p>
+<ol>
+<li><p>首先是产生新的数组</p>
+<p> <img src="https://s2.ax1x.com/2019/09/18/nHTTsI.jpg" alt=""></p>
+</li>
+<li><p>重新放置原来的键值对到新的数组中</p>
+<p> <img src="https://s2.ax1x.com/2019/09/18/nHbVM9.jpg" alt=""></p>
+<p> 注意：因为原来计算index时是使用的hash&amp;length-1，此处&amp;oldCap，相当于多与了1bit，此时是否为0就决定于hash值上这一bit是否为1，相当于决定新的index的因素还是由key的hash决定，从理论上，还是体现了key的特性，根据了key的hash值来决定index，还是能保证键值对的均匀分布的。</p>
+</li>
+</ol>
 
       
     </div>
@@ -581,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap的初始化"><span class="nav-number">1.</span> <span class="nav-text">HashMap的初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#map的put"><span class="nav-number">2.</span> <span class="nav-text">map的put</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#map的get"><span class="nav-number">3.</span> <span class="nav-text">map的get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap数据结构的理解"><span class="nav-number">4.</span> <span class="nav-text">HashMap数据结构的理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap中数组的长度为什么使用2的幂次方"><span class="nav-number">5.</span> <span class="nav-text">HashMap中数组的长度为什么使用2的幂次方</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap的初始化"><span class="nav-number">1.</span> <span class="nav-text">HashMap的初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#map的put"><span class="nav-number">2.</span> <span class="nav-text">map的put</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#map的get"><span class="nav-number">3.</span> <span class="nav-text">map的get</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap数据结构的理解"><span class="nav-number">4.</span> <span class="nav-text">HashMap数据结构的理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap中数组的长度为什么使用2的幂次方"><span class="nav-number">5.</span> <span class="nav-text">HashMap中数组的长度为什么使用2的幂次方</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap的扩容机制"><span class="nav-number">6.</span> <span class="nav-text">HashMap的扩容机制</span></a></li></ol></div>
             
 
           </div>
